@@ -1,0 +1,39 @@
+﻿Variable,Importancia
+num__SalarioTotalConBeneficios,2.000276134775861
+num__SalarioBase,0.0
+num__HorasExtra,0.0
+num__OtrosPagos,0.0
+num__Beneficios,0.0
+num__SalarioTotal,0.0
+num__Año,0.0
+cat__Departamento_Comercial / Ventas,0.0
+cat__Departamento_Finanzas,0.0
+cat__Departamento_Logistica,0.0
+cat__Departamento_Marketing,0.0
+cat__Departamento_Operaciones (Supply),0.0
+cat__Departamento_People (RRHH),0.0
+cat__Departamento_Sostenibilidad,0.0
+cat__Departamento_Tecnologia (Tech),0.0
+cat__Cargo_Analista de Calidad,0.0
+cat__Cargo_Analista de Datos,0.0
+cat__Cargo_Brand Manager,0.0
+cat__Cargo_Business Partner,0.0
+cat__Cargo_Controller Financiero,0.0
+cat__Cargo_Coordinador de Agro,0.0
+cat__Cargo_Gestor de Flota,0.0
+cat__Cargo_Key Account Manager,0.0
+cat__Cargo_Maestro Cervecero,0.0
+cat__Cargo_Operador de Envasado,0.0
+cat__Cargo_Planificador de Demanda,0.0
+cat__Cargo_Preventista (BEES),0.0
+cat__Cargo_Reclutador (Trainee),0.0
+cat__Cargo_Trade Marketing,0.0
+cat__Oficina_Centros de Distribucion,0.0
+cat__Oficina_Oficina Regional,0.0
+cat__Oficina_Oficinas Administrativas,0.0
+cat__Oficina_Planta Industrial,0.0
+cat__Oficina_Planta Industrial (Matriz),0.0
+cat__TipoContrato_Full-Time,0.0
+cat__TipoContrato_Part-Time,0.0
+cat__Sexo_femenino,0.0
+cat__Sexo_masculino,0.0

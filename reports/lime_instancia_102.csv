@@ -1,0 +1,11 @@
+﻿Regla_LIME,Peso
+num__SalarioTotalConBeneficios <= -0.78,-0.7705971493725787
+cat__Cargo_Preventista (BEES) <= 0.00,-0.028956979230084473
+cat__Oficina_Centros de Distribucion <= 0.00,0.01678355030777956
+0.00 < cat__TipoContrato_Full-Time <= 1.00,0.015017678445396856
+cat__Cargo_Business Partner <= 0.00,-0.014951471840130437
+cat__Cargo_Gestor de Flota > 0.00,-0.014659574763970845
+cat__Cargo_Coordinador de Agro <= 0.00,0.013535799321680782
+cat__Cargo_Operador de Envasado <= 0.00,-0.012165546327881492
+cat__Departamento_Finanzas <= 0.00,0.009958722196028964
+cat__Oficina_Oficina Regional <= 0.00,0.008607545579677979

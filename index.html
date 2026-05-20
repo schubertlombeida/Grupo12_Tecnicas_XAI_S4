@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Grupo 12 | Portafolio XAI S4</title>
+<style>
+:root { --bg:#f7f8fb; --card:#ffffff; --ink:#172033; --muted:#5b667a; --line:#e5e8ef; --accent:#1f6f8b; }
+* { box-sizing:border-box; }
+body { margin:0; font-family: Inter, Segoe UI, Arial, sans-serif; background:var(--bg); color:var(--ink); }
+header { padding:56px 24px; background:linear-gradient(135deg,#0e3349,#1f6f8b); color:white; }
+header .wrap, main { max-width:1120px; margin:auto; }
+h1 { margin:0 0 10px; font-size:clamp(30px,5vw,52px); line-height:1.05; }
+p.lead { font-size:20px; max-width:850px; color:#eaf6fb; }
+.badges { display:flex; gap:10px; flex-wrap:wrap; margin-top:22px; }
+.badge { background:rgba(255,255,255,.16); border:1px solid rgba(255,255,255,.25); padding:8px 12px; border-radius:999px; font-weight:600; }
+main { padding:28px 20px 60px; }
+.grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(250px,1fr)); gap:18px; }
+.card { background:var(--card); border:1px solid var(--line); border-radius:18px; padding:20px; box-shadow:0 8px 24px rgba(20,30,50,.06); }
+.card h2, .card h3 { margin-top:0; }
+.metric { font-size:34px; font-weight:800; color:var(--accent); }
+a { color:var(--accent); text-decoration:none; font-weight:700; }
+a:hover { text-decoration:underline; }
+.figure-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(300px,1fr)); gap:18px; }
+figure { margin:0; background:white; border:1px solid var(--line); border-radius:18px; padding:12px; box-shadow:0 8px 24px rgba(20,30,50,.06); }
+figure img { width:100%; border-radius:12px; display:block; }
+figcaption { padding:10px 4px 2px; color:var(--muted); font-size:14px; }
+ul { padding-left:20px; }
+footer { color:var(--muted); text-align:center; padding:24px; }
+</style>
+</head>
+<body>
+<header><div class="wrap">
+<h1>Portafolio XAI — Taller colaborativo S4</h1>
+<p class="lead">Modelo supervisado para predicción de ingresos > USD 40K/año, con auditoría de calidad de datos, evaluación de sesgo, métricas de equidad y técnicas de explicabilidad.</p>
+<div class="badges"><span class="badge">Grupo 12</span><span class="badge">SHAP</span><span class="badge">LIME</span><span class="badge">Permutation Feature Importance</span><span class="badge">Ética y sesgo</span></div>
+</div></header>
+<main>
+<section class="grid">
+<div class="card"><h2>Dataset</h2><div class="metric">8,382</div><p>registros analizados.</p></div>
+<div class="card"><h2>Clase positiva</h2><div class="metric">83.45%</div><p>supera USD 40K/año.</p></div>
+<div class="card"><h2>Accuracy</h2><div class="metric">1.0000</div><p>en el conjunto de prueba.</p></div>
+<div class="card"><h2>Paridad demográfica</h2><div class="metric">0.0285</div><p>diferencia entre tasas de selección.</p></div>
+</section>
+<section class="card" style="margin-top:20px;">
+<h2>Documentación principal</h2>
+<ul>
+<li><a href="README.md">README del repositorio</a></li>
+<li><a href="docs/00_resumen_ejecutivo.md">Resumen ejecutivo</a></li>
+<li><a href="docs/01_metodologia_y_calidad_datos.md">Metodología y calidad de datos</a></li>
+<li><a href="docs/02_entrenamiento_modelo_y_metricas.md">Entrenamiento y métricas</a></li>
+<li><a href="docs/03_explicabilidad_xai.md">Explicabilidad XAI</a></li>
+<li><a href="docs/04_analisis_etico_reflexivo.md">Análisis ético y reflexivo</a></li>
+<li><a href="docs/05_checklist_rubrica.md">Checklist de rúbrica</a></li>
+<li><a href="docs/06_guia_presentacion_tecnica_sin_video.md">Guía para presentación técnica</a></li>
+</ul>
+</section>
+<section style="margin-top:24px;">
+<h2>Visualizaciones clave</h2>
+<div class="figure-grid">
+<figure><img src="assets/figures/01_distribucion_objetivo.png" alt="Distribución de clases"><figcaption>Distribución de la variable objetivo.</figcaption></figure>
+<figure><img src="assets/figures/03_ingreso_promedio_por_sexo.png" alt="Ingreso por sexo"><figcaption>Ingreso anual promedio por sexo.</figcaption></figure>
+<figure><img src="assets/figures/05_matriz_confusion.png" alt="Matriz de confusión"><figcaption>Matriz de confusión del modelo.</figcaption></figure>
+<figure><img src="assets/figures/07_metricas_equidad_por_sexo.png" alt="Equidad por sexo"><figcaption>Métricas de desempeño y selection rate por sexo.</figcaption></figure>
+<figure><img src="assets/figures/08_permutation_feature_importance.png" alt="PFI"><figcaption>Permutation Feature Importance.</figcaption></figure>
+<figure><img src="assets/figures/10_comparacion_pfi_shap.png" alt="Comparación XAI"><figcaption>Comparación global entre PFI y SHAP.</figcaption></figure>
+</div>
+</section>
+</main>
+<footer>Portafolio académico — Ética, sesgo y calidad en aprendizaje automático.</footer>
+</body>
+</html>

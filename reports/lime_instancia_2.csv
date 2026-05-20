@@ -1,0 +1,11 @@
+﻿Regla_LIME,Peso
+-0.04 < num__SalarioTotalConBeneficios <= 0.75,0.2530434595269985
+cat__Departamento_Sostenibilidad > 0.00,-0.03831794821687404
+cat__Cargo_Key Account Manager <= 0.00,-0.03347767588414706
+cat__Cargo_Planificador de Demanda <= 0.00,-0.03144312319226443
+cat__Cargo_Operador de Envasado <= 0.00,-0.030475147819822877
+cat__Cargo_Business Partner <= 0.00,-0.025715151596113067
+cat__Cargo_Maestro Cervecero <= 0.00,-0.024465666406746803
+cat__Departamento_Finanzas <= 0.00,-0.022766261361771383
+cat__Cargo_Gestor de Flota <= 0.00,-0.022484915424418116
+cat__Departamento_Tecnologia (Tech) <= 0.00,0.018182390512858516
