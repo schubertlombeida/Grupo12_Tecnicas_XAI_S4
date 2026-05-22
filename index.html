@@ -1,72 +1,981 @@
-<!doctype html>
+﻿<!doctype html>
 <html lang="es">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Grupo 12 | Portafolio XAI S4</title>
-<style>
-:root { --bg:#f7f8fb; --card:#ffffff; --ink:#172033; --muted:#5b667a; --line:#e5e8ef; --accent:#1f6f8b; }
-* { box-sizing:border-box; }
-body { margin:0; font-family: Inter, Segoe UI, Arial, sans-serif; background:var(--bg); color:var(--ink); }
-header { padding:56px 24px; background:linear-gradient(135deg,#0e3349,#1f6f8b); color:white; }
-header .wrap, main { max-width:1120px; margin:auto; }
-h1 { margin:0 0 10px; font-size:clamp(30px,5vw,52px); line-height:1.05; }
-p.lead { font-size:20px; max-width:850px; color:#eaf6fb; }
-.badges { display:flex; gap:10px; flex-wrap:wrap; margin-top:22px; }
-.badge { background:rgba(255,255,255,.16); border:1px solid rgba(255,255,255,.25); padding:8px 12px; border-radius:999px; font-weight:600; }
-main { padding:28px 20px 60px; }
-.grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(250px,1fr)); gap:18px; }
-.card { background:var(--card); border:1px solid var(--line); border-radius:18px; padding:20px; box-shadow:0 8px 24px rgba(20,30,50,.06); }
-.card h2, .card h3 { margin-top:0; }
-.metric { font-size:34px; font-weight:800; color:var(--accent); }
-a { color:var(--accent); text-decoration:none; font-weight:700; }
-a:hover { text-decoration:underline; }
-.figure-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(300px,1fr)); gap:18px; }
-figure { margin:0; background:white; border:1px solid var(--line); border-radius:18px; padding:12px; box-shadow:0 8px 24px rgba(20,30,50,.06); }
-figure img { width:100%; border-radius:12px; display:block; }
-figcaption { padding:10px 4px 2px; color:var(--muted); font-size:14px; }
-ul { padding-left:20px; }
-footer { color:var(--muted); text-align:center; padding:24px; }
-</style>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Panel de revisión | Grupo 12 - Técnicas XAI S4</title>
+  <style>
+    :root {
+      --bg: #f4f6f8;
+      --surface: #ffffff;
+      --surface-2: #eef3f6;
+      --ink: #18222f;
+      --muted: #627084;
+      --line: #dfe5eb;
+      --accent: #176b72;
+      --accent-2: #9b6a1f;
+      --ok: #227a54;
+      --shadow: 0 18px 45px rgba(30, 42, 56, 0.10);
+      --radius: 8px;
+    }
+
+    * { box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      font-family: "Segoe UI", Roboto, Arial, sans-serif;
+      background: var(--bg);
+      color: var(--ink);
+      line-height: 1.55;
+    }
+
+    a { color: inherit; }
+
+    .layout {
+      display: grid;
+      grid-template-columns: 292px minmax(0, 1fr);
+      min-height: 100vh;
+    }
+
+    aside {
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      padding: 24px 18px;
+      background: #10242b;
+      color: #f5fbfc;
+      overflow: auto;
+    }
+
+    .brand {
+      padding: 10px 8px 22px;
+      border-bottom: 1px solid rgba(255,255,255,.16);
+    }
+
+    .brand small {
+      display: block;
+      color: #b9cbd0;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      font-weight: 700;
+      font-size: 11px;
+    }
+
+    .brand strong {
+      display: block;
+      margin-top: 8px;
+      font-size: 21px;
+      line-height: 1.2;
+    }
+
+    .nav-label {
+      margin: 22px 8px 9px;
+      color: #a7bdc3;
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+    }
+
+    nav a, .repo-link {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 12px;
+      border-radius: var(--radius);
+      color: #e9f4f6;
+      text-decoration: none;
+      font-weight: 650;
+      font-size: 14px;
+    }
+
+    nav a:hover, nav a.active, .repo-link:hover {
+      background: rgba(255,255,255,.12);
+    }
+
+    .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #77c0bd;
+      flex: 0 0 8px;
+    }
+
+    .repo-box {
+      margin-top: 22px;
+      padding: 14px;
+      background: rgba(255,255,255,.08);
+      border: 1px solid rgba(255,255,255,.14);
+      border-radius: var(--radius);
+    }
+
+    .repo-box p {
+      margin: 0 0 10px;
+      color: #c7d8dc;
+      font-size: 13px;
+    }
+
+    main {
+      min-width: 0;
+    }
+
+    .hero {
+      position: relative;
+      min-height: 92vh;
+      display: grid;
+      align-items: end;
+      padding: 52px clamp(22px, 5vw, 72px);
+      color: #fff;
+      background:
+        linear-gradient(115deg, rgba(12,32,38,.96), rgba(15,47,54,.82) 48%, rgba(28,36,43,.64)),
+        url("https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=1800&q=80") center/cover;
+    }
+
+    .uees-logo {
+      position: absolute;
+      top: 22px;
+      right: 28px;
+      width: min(142px, 28vw);
+      height: auto;
+      padding: 8px 10px;
+      border-radius: var(--radius);
+      background: rgba(255, 255, 255, .94);
+      box-shadow: 0 12px 30px rgba(0, 0, 0, .18);
+    }
+
+    .hero-content {
+      max-width: 1040px;
+    }
+
+    .eyebrow {
+      margin: 0 0 14px;
+      color: #bfe1df;
+      text-transform: uppercase;
+      letter-spacing: .09em;
+      font-size: 12px;
+      font-weight: 800;
+    }
+
+    h1 {
+      margin: 0;
+      max-width: 920px;
+      font-size: clamp(36px, 6vw, 72px);
+      line-height: 1.02;
+      letter-spacing: 0;
+    }
+
+    .lead {
+      max-width: 850px;
+      margin: 22px 0 0;
+      color: #e8f4f4;
+      font-size: clamp(17px, 2vw, 22px);
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-top: 28px;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      min-height: 42px;
+      padding: 10px 14px;
+      border: 1px solid transparent;
+      border-radius: var(--radius);
+      background: var(--accent);
+      color: #fff;
+      text-decoration: none;
+      font-weight: 750;
+      cursor: pointer;
+      transition: transform .18s ease, box-shadow .18s ease, background .18s ease;
+    }
+
+    .btn:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 12px 26px rgba(0,0,0,.18);
+      background: #115961;
+    }
+
+    .btn.secondary {
+      background: rgba(255,255,255,.12);
+      border-color: rgba(255,255,255,.28);
+    }
+
+    .btn.repo-button svg {
+      width: 21px;
+      height: 21px;
+      fill: currentColor;
+      display: block;
+    }
+
+    .content {
+      padding: 34px clamp(18px, 4vw, 58px) 64px;
+    }
+
+    section {
+      max-width: 1180px;
+      margin: 0 auto 34px;
+      scroll-margin-top: 22px;
+    }
+
+    .section-head {
+      display: flex;
+      justify-content: space-between;
+      gap: 20px;
+      align-items: end;
+      margin-bottom: 16px;
+    }
+
+    h2 {
+      margin: 0;
+      font-size: clamp(24px, 3vw, 34px);
+      line-height: 1.15;
+    }
+
+    .section-head p {
+      margin: 8px 0 0;
+      color: var(--muted);
+      max-width: 760px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap: 16px;
+    }
+
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 20px;
+      box-shadow: var(--shadow);
+    }
+
+    .span-3 { grid-column: span 3; }
+    .span-4 { grid-column: span 4; }
+    .span-5 { grid-column: span 5; }
+    .span-6 { grid-column: span 6; }
+    .span-7 { grid-column: span 7; }
+    .span-8 { grid-column: span 8; }
+    .span-12 { grid-column: span 12; }
+
+    .metric {
+      color: var(--accent);
+      font-size: 34px;
+      font-weight: 850;
+      line-height: 1;
+    }
+
+    .metric-label {
+      margin: 9px 0 0;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .pill-row {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-top: 14px;
+    }
+
+    .pill, .filter {
+      display: inline-flex;
+      align-items: center;
+      min-height: 30px;
+      padding: 6px 10px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: #f8fafb;
+      color: #344452;
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .filter {
+      cursor: pointer;
+      font-family: inherit;
+    }
+
+    .filter.active {
+      background: var(--accent);
+      color: #fff;
+      border-color: var(--accent);
+    }
+
+    .profile {
+      display: flex;
+      gap: 14px;
+      align-items: center;
+    }
+
+    .avatar {
+      display: grid;
+      place-items: center;
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: var(--surface-2);
+      color: var(--accent);
+      font-weight: 850;
+    }
+
+    .profile h3, .repo-item h3, .timeline h3 {
+      margin: 0;
+      font-size: 18px;
+    }
+
+    .profile p, .repo-item p, .timeline p {
+      margin: 5px 0 0;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .academic-list {
+      display: grid;
+      gap: 14px;
+      margin-top: 16px;
+    }
+
+    .academic-row {
+      display: grid;
+      grid-template-columns: 98px minmax(0, 1fr);
+      gap: 12px;
+      padding: 12px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: #fbfcfd;
+    }
+
+    .academic-row dt {
+      margin: 0;
+      color: var(--accent);
+      font-weight: 850;
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: .04em;
+    }
+
+    .academic-row dd {
+      margin: 0;
+      color: var(--ink);
+      font-weight: 650;
+    }
+
+    .student-list {
+      margin: 0;
+      padding-left: 18px;
+    }
+
+    .student-list li + li { margin-top: 5px; }
+
+    .notice {
+      border-left: 4px solid var(--accent-2);
+      background: #fff8ec;
+      box-shadow: none;
+    }
+
+    .toolbar {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-bottom: 15px;
+      align-items: center;
+    }
+
+    .search {
+      min-width: min(100%, 340px);
+      flex: 1;
+      height: 42px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 0 12px;
+      font: inherit;
+      color: var(--ink);
+      background: #fff;
+    }
+
+    .repo-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(245px, 1fr));
+      gap: 14px;
+    }
+
+    .repo-item {
+      display: flex;
+      flex-direction: column;
+      min-height: 178px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 16px;
+      background: #fff;
+      transition: transform .18s ease, border-color .18s ease, box-shadow .18s ease;
+    }
+
+    .repo-item:hover {
+      transform: translateY(-2px);
+      border-color: #b8ccd0;
+      box-shadow: 0 16px 34px rgba(30, 42, 56, .12);
+    }
+
+    .repo-item .meta {
+      margin-top: auto;
+      padding-top: 14px;
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      align-items: center;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .repo-item a {
+      color: var(--accent);
+      font-weight: 800;
+      text-decoration: none;
+    }
+
+    .repo-item a:hover { text-decoration: underline; }
+
+    .timeline {
+      display: grid;
+      gap: 12px;
+    }
+
+    .step {
+      display: grid;
+      grid-template-columns: 34px minmax(0, 1fr);
+      gap: 12px;
+      align-items: start;
+      padding: 14px;
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+    }
+
+    .step-number {
+      display: grid;
+      place-items: center;
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      background: var(--accent);
+      color: #fff;
+      font-weight: 850;
+    }
+
+    .tabs {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 14px;
+    }
+
+    .tab {
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: #fff;
+      padding: 9px 12px;
+      font: inherit;
+      font-weight: 750;
+      color: var(--muted);
+      cursor: pointer;
+    }
+
+    .tab.active {
+      color: #fff;
+      background: var(--accent);
+      border-color: var(--accent);
+    }
+
+    .tab-panel { display: none; }
+    .tab-panel.active { display: block; }
+
+    .table-wrap {
+      overflow: auto;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: #fff;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 680px;
+    }
+
+    th, td {
+      padding: 13px 14px;
+      border-bottom: 1px solid var(--line);
+      text-align: left;
+      vertical-align: top;
+    }
+
+    th {
+      background: #f8fafb;
+      color: #394a58;
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: .04em;
+    }
+
+    tr:last-child td { border-bottom: 0; }
+
+    .callout {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 18px;
+      align-items: center;
+      background: #10242b;
+      color: #f6fbfc;
+      border-radius: var(--radius);
+      padding: 22px;
+    }
+
+    .callout p { margin: 6px 0 0; color: #c5d9de; }
+
+    .top-button {
+      position: fixed;
+      right: 18px;
+      bottom: 18px;
+      display: none;
+      width: 44px;
+      height: 44px;
+      border: 0;
+      border-radius: var(--radius);
+      background: var(--accent);
+      color: #fff;
+      font-weight: 850;
+      cursor: pointer;
+      box-shadow: var(--shadow);
+    }
+
+    .top-button.visible { display: block; }
+
+    @media (max-width: 980px) {
+      .layout { grid-template-columns: 1fr; }
+
+      aside {
+        position: relative;
+        height: auto;
+      }
+
+      nav {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+        gap: 6px;
+      }
+
+      .hero { min-height: 76vh; }
+
+      .uees-logo {
+        width: 118px;
+        top: 16px;
+        right: 16px;
+      }
+
+      .span-3, .span-4, .span-5, .span-6, .span-7, .span-8 {
+        grid-column: span 12;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .section-head, .callout {
+        display: block;
+      }
+
+      .callout .btn { margin-top: 14px; width: 100%; }
+
+      .hero-actions .btn { width: 100%; }
+
+      .academic-row { grid-template-columns: 1fr; }
+
+      .content { padding-left: 14px; padding-right: 14px; }
+    }
+  </style>
 </head>
 <body>
-<header><div class="wrap">
-<h1>Portafolio XAI — Taller colaborativo S4</h1>
-<p class="lead">Modelo supervisado para predicción de ingresos > USD 40K/año, con auditoría de calidad de datos, evaluación de sesgo, métricas de equidad y técnicas de explicabilidad.</p>
-<div class="badges"><span class="badge">Grupo 12</span><span class="badge">SHAP</span><span class="badge">LIME</span><span class="badge">Permutation Feature Importance</span><span class="badge">Ética y sesgo</span></div>
-</div></header>
-<main>
-<section class="grid">
-<div class="card"><h2>Dataset</h2><div class="metric">8,382</div><p>registros analizados.</p></div>
-<div class="card"><h2>Clase positiva</h2><div class="metric">83.45%</div><p>supera USD 40K/año.</p></div>
-<div class="card"><h2>Accuracy</h2><div class="metric">1.0000</div><p>en el conjunto de prueba.</p></div>
-<div class="card"><h2>Paridad demográfica</h2><div class="metric">0.0285</div><p>diferencia entre tasas de selección.</p></div>
-</section>
-<section class="card" style="margin-top:20px;">
-<h2>Documentación principal</h2>
-<ul>
-<li><a href="README.md">README del repositorio</a></li>
-<li><a href="docs/00_resumen_ejecutivo.md">Resumen ejecutivo</a></li>
-<li><a href="docs/01_metodologia_y_calidad_datos.md">Metodología y calidad de datos</a></li>
-<li><a href="docs/02_entrenamiento_modelo_y_metricas.md">Entrenamiento y métricas</a></li>
-<li><a href="docs/03_explicabilidad_xai.md">Explicabilidad XAI</a></li>
-<li><a href="docs/04_analisis_etico_reflexivo.md">Análisis ético y reflexivo</a></li>
-<li><a href="docs/05_checklist_rubrica.md">Checklist de rúbrica</a></li>
-<li><a href="docs/06_guia_presentacion_tecnica_sin_video.md">Guía para presentación técnica</a></li>
-</ul>
-</section>
-<section style="margin-top:24px;">
-<h2>Visualizaciones clave</h2>
-<div class="figure-grid">
-<figure><img src="assets/figures/01_distribucion_objetivo.png" alt="Distribución de clases"><figcaption>Distribución de la variable objetivo.</figcaption></figure>
-<figure><img src="assets/figures/03_ingreso_promedio_por_sexo.png" alt="Ingreso por sexo"><figcaption>Ingreso anual promedio por sexo.</figcaption></figure>
-<figure><img src="assets/figures/05_matriz_confusion.png" alt="Matriz de confusión"><figcaption>Matriz de confusión del modelo.</figcaption></figure>
-<figure><img src="assets/figures/07_metricas_equidad_por_sexo.png" alt="Equidad por sexo"><figcaption>Métricas de desempeño y selection rate por sexo.</figcaption></figure>
-<figure><img src="assets/figures/08_permutation_feature_importance.png" alt="PFI"><figcaption>Permutation Feature Importance.</figcaption></figure>
-<figure><img src="assets/figures/10_comparacion_pfi_shap.png" alt="Comparación XAI"><figcaption>Comparación global entre PFI y SHAP.</figcaption></figure>
-</div>
-</section>
-</main>
-<footer>Portafolio académico — Ética, sesgo y calidad en aprendizaje automático.</footer>
+  <div class="layout">
+    <aside aria-label="Panel de navegación">
+      <div class="brand">
+        <small>Repositorio académico</small>
+        <strong>Grupo 12<br>Técnicas XAI S4</strong>
+      </div>
+
+      <p class="nav-label">Navegación</p>
+      <nav>
+        <a href="#inicio" class="active"><span class="dot"></span>Inicio</a>
+        <a href="#grupo"><span class="dot"></span>Grupo y tema</a>
+        <a href="#resultados"><span class="dot"></span>Resultados</a>
+        <a href="#componentes"><span class="dot"></span>Componentes</a>
+        <a href="#ruta"><span class="dot"></span>Ruta de revisión</a>
+        <a href="#evidencias"><span class="dot"></span>Evidencias</a>
+        <a href="#etica"><span class="dot"></span>Ética y calidad</a>
+      </nav>
+
+      <div class="repo-box">
+        <p>Acceso directo al repositorio público consultado.</p>
+        <a class="repo-link" href="https://github.com/schubertlombeida/Grupo12_Tecnicas_XAI_S4" target="_blank" rel="noopener">Abrir en GitHub</a>
+      </div>
+    </aside>
+
+    <main>
+      <header id="inicio" class="hero">
+        <img class="uees-logo" src="data:image/png;base64,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kQmbYeBPPm/ghx8wEzv0/gWhy6NHzAw/e7Zf/to+X2ZBN+cFGquG973wWT0/+KzJLVKcoJIVHAtWLXzs7l9cl4lhNrMajUADWN59r/lhfE7Dc9ifUdZGTwd3okhwPFjOM37zxnT12r+a/2AIgiAWIj74yCfP+M3PwUqFkOCvmXY9L5K5iGGbLrlwminZRkjhv8WK2PbxkUfj7DVPz9rbx9Gvs3Pp6d3O+cw558U6bwOR7HrhG8zxkSI09YO7zE0GglhVcFOw817Pv7a2Q2j1eSwL2ib1gjfO+M1fmIRIJj+HsbxNHyH6uKGhT9r6bzS/Ig4+ojKFK0EQxILA1wzfab8RXtzzgxt7fnBn6gV36OLnxX3tvN/SWAc3xRb7uPA9b240b0j98Hd1JctmF9zS84I7S8e3ix/csVmfI/z7+X4fMvlouEEgmCbhkkm6ZL8329ztZlu2PUuilA1chk+3r8MAn3W/0Xxt3w8/gcUDsAI48pBkFrieSn5b6gW/GfjhVxEvnU6Q1UwQxDKBGXs6IuKQ4EmYmLGY0ps48skzE8019vEweIZtWKtvWA4v/n3EWh+Lso5zznjiyCdjKrg5/oZHrXtQzw9egAx96ergxXVlULGtVCaCF/dWT76ktzp8qVksdxR6AYHGuidgSa7EW/vM1JsMen7zTzHo6O5LEARBEARBEARBEARBEARBEARBEARBEARBEARBEARBEARBEARBEARBEARBEARBEARBEARBEARBEARBEARBEARBEARBEARBEARBEARBEARBEARBEARBEARBEARBEARBEARBEARBEARBEARBEARBEARBEARBEARBEARBEARBEARBEARBEARBEARBEARBEARBEARBEARBEARBEARBEARBEARBEARBEARBEARBEARBEARBEARBEARBEARBEARBEARBEARBEARBEARBEARBEARBEARBEARBEARBEARBEARBEARBEARBEARBEARBEARBEARBEARBEARBEARBEARBEARBEARBEASxrPx/8zHKDdKH9moAAAAASUVORK5CYII=" alt="Logotipo de la Universidad Espíritu Santo">
+        <div class="hero-content">
+          <p class="eyebrow">Panel formal de revisión para la docente</p>
+          <h1>Taller colaborativo S4: técnicas XAI, ética, sesgo y calidad de datos</h1>
+          <p class="lead">Una vista ordenada para ubicar el tema del trabajo, revisar el alcance del repositorio y navegar rápidamente por notebooks, datos, documentación, reportes y visualizaciones.</p>
+          <div class="hero-actions">
+            <a class="btn" href="#componentes">Revisar componentes</a>
+            <a class="btn secondary" href="https://github.com/schubertlombeida/Grupo12_Tecnicas_XAI_S4/blob/main/README.md" target="_blank" rel="noopener">Ver README</a>
+            <a class="btn secondary repo-button" href="https://github.com/schubertlombeida/Grupo12_Tecnicas_XAI_S4" target="_blank" rel="noopener">
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M12 2C6.48 2 2 6.58 2 12.25c0 4.52 2.87 8.35 6.84 9.71.5.09.68-.22.68-.49 0-.24-.01-.88-.01-1.73-2.78.62-3.37-1.37-3.37-1.37-.45-1.18-1.11-1.49-1.11-1.49-.91-.64.07-.63.07-.63 1 .07 1.53 1.06 1.53 1.06.89 1.56 2.34 1.11 2.91.85.09-.66.35-1.11.63-1.37-2.22-.26-4.56-1.14-4.56-5.06 0-1.12.39-2.03 1.03-2.75-.1-.26-.45-1.3.1-2.71 0 0 .84-.28 2.75 1.05A9.3 9.3 0 0 1 12 6.99c.85 0 1.71.12 2.51.35 1.91-1.33 2.75-1.05 2.75-1.05.55 1.41.2 2.45.1 2.71.64.72 1.03 1.63 1.03 2.75 0 3.93-2.34 4.8-4.57 5.05.36.32.68.95.68 1.91 0 1.38-.01 2.49-.01 2.83 0 .27.18.59.69.49A10.14 10.14 0 0 0 22 12.25C22 6.58 17.52 2 12 2Z"></path>
+              </svg>
+              Abrir Repositorio
+            </a>
+          </div>
+        </div>
+      </header>
+
+      <div class="content">
+        <section id="grupo">
+          <div class="section-head">
+            <div>
+              <h2>Grupo y tema del trabajo</h2>
+              <p>El repositorio corresponde al Grupo 12 de la materia Aprendizaje Automático y documenta un ejercicio de aprendizaje automático explicable aplicado a datos salariales.</p>
+            </div>
+          </div>
+
+          <div class="grid">
+            <article class="card span-7">
+              <p class="eyebrow" style="color: var(--accent);">Tema central</p>
+              <h3>Predicción de ingresos anuales mayores a USD 40.000 con revisión de sesgo y explicabilidad</h3>
+              <p>El proyecto entrena un modelo supervisado sobre un dataset salarial de una cervecería. Además del entrenamiento, revisa calidad de datos, sesgo por sexo, mitigación mediante ponderación, métricas de desempeño, métricas de equidad y explicaciones con PFI, SHAP y LIME.</p>
+              <div class="pill-row">
+                <span class="pill">XAI</span>
+                <span class="pill">Calidad de datos</span>
+                <span class="pill">Sesgo</span>
+                <span class="pill">Equidad</span>
+                <span class="pill">Random Forest</span>
+              </div>
+            </article>
+
+            <article class="card span-5">
+              <p class="eyebrow" style="color: var(--accent);">Datos académicos</p>
+              <div class="profile">
+                <div class="avatar">G12</div>
+                <div>
+                  <h3>Grupo 12</h3>
+                  <p>Equipo responsable del taller colaborativo S4.</p>
+                </div>
+              </div>
+              <dl class="academic-list">
+                <div class="academic-row">
+                  <dt>Profesor</dt>
+                  <dd>Gladys María Villegas Rugel</dd>
+                </div>
+                <div class="academic-row">
+                  <dt>Materia</dt>
+                  <dd>Aprendizaje Automático</dd>
+                </div>
+                <div class="academic-row">
+                  <dt>Alumnos</dt>
+                  <dd>
+                    <ul class="student-list">
+                      <li>Niko Dimitri Jiménez Bruno</li>
+                      <li>José Luis Peñafiel Fernández</li>
+                      <li>Juan Carlos Bajaña Gutiérrez</li>
+                      <li>Schubert Stalin Lombeida Manjarrez</li>
+                    </ul>
+                  </dd>
+                </div>
+              </dl>
+            </article>
+          </div>
+        </section>
+
+        <section id="resultados">
+          <div class="section-head">
+            <div>
+              <h2>Resultados principales</h2>
+              <p>Indicadores extraídos del README público del repositorio para orientar la revisión inicial.</p>
+            </div>
+          </div>
+
+          <div class="grid">
+            <article class="card span-3"><div class="metric">8,382</div><p class="metric-label">Registros analizados</p></article>
+            <article class="card span-3"><div class="metric">83.45%</div><p class="metric-label">Clase positiva: gana más de USD 40K/año</p></article>
+            <article class="card span-3"><div class="metric">1.0000</div><p class="metric-label">Accuracy, precision, recall y F1 reportados</p></article>
+            <article class="card span-3"><div class="metric">0.0285</div><p class="metric-label">Diferencia de paridad demográfica</p></article>
+          </div>
+        </section>
+
+        <section id="componentes">
+          <div class="section-head">
+            <div>
+              <h2>Menú de componentes del repositorio</h2>
+              <p>Use el buscador o los filtros para localizar rápidamente cada evidencia. Cada tarjeta abre el elemento correspondiente en GitHub.</p>
+            </div>
+          </div>
+
+          <div class="toolbar" aria-label="Filtros de componentes">
+            <input id="searchInput" class="search" type="search" placeholder="Buscar por nombre, carpeta o propósito...">
+            <button class="filter active" data-filter="todos">Todos</button>
+            <button class="filter" data-filter="documentacion">Documentación</button>
+            <button class="filter" data-filter="datos">Datos</button>
+            <button class="filter" data-filter="modelo">Modelo</button>
+            <button class="filter" data-filter="reportes">Reportes</button>
+          </div>
+
+          <div id="repoGrid" class="repo-grid">
+            <article class="repo-item" data-category="documentacion" data-text="readme resumen general problema resultados ejecutar etica">
+              <h3>README.md</h3>
+              <p>Resumen del problema, archivos principales, resultados, ejecución y nota ética.</p>
+              <div class="meta"><span>Raíz</span><a href="https://github.com/schubertlombeida/Grupo12_Tecnicas_XAI_S4/blob/main/README.md" target="_blank" rel="noopener">Abrir</a></div>
+            </article>
+
+            <article class="repo-item" data-category="modelo" data-text="notebook principal preparacion datos entrenamiento equidad xai">
+              <h3>Notebook principal</h3>
+              <p>Preparación de datos, entrenamiento, evaluación de equidad y explicabilidad XAI.</p>
+              <div class="meta"><span>notebooks/</span><a href="https://github.com/schubertlombeida/Grupo12_Tecnicas_XAI_S4/tree/main/notebooks" target="_blank" rel="noopener">Abrir</a></div>
+            </article>
+
+            <article class="repo-item" data-category="datos" data-text="dataset raw original salarios cerveceria sexo csv">
+              <h3>Dataset original</h3>
+              <p>Archivo CSV inicial usado para el análisis salarial.</p>
+              <div class="meta"><span>data/raw/</span><a href="https://github.com/schubertlombeida/Grupo12_Tecnicas_XAI_S4/tree/main/data" target="_blank" rel="noopener">Abrir</a></div>
+            </article>
+
+            <article class="repo-item" data-category="datos" data-text="dataset procesado sin identificadores id nombre notas">
+              <h3>Dataset procesado</h3>
+              <p>Versión preparada para modelado, sin ID, nombre ni notas.</p>
+              <div class="meta"><span>data/processed/</span><a href="https://github.com/schubertlombeida/Grupo12_Tecnicas_XAI_S4/tree/main/data" target="_blank" rel="noopener">Abrir</a></div>
+            </article>
+
+            <article class="repo-item" data-category="documentacion" data-text="docs resumen ejecutivo metodologia calidad entrenamiento metricas explicabilidad etica limitaciones diccionario">
+              <h3>Documentación técnica</h3>
+              <p>Resumen ejecutivo, metodología, métricas, XAI, ética, limitaciones y diccionario de datos.</p>
+              <div class="meta"><span>docs/</span><a href="https://github.com/schubertlombeida/Grupo12_Tecnicas_XAI_S4/tree/main/docs" target="_blank" rel="noopener">Abrir</a></div>
+            </article>
+
+            <article class="repo-item" data-category="reportes" data-text="reports csv metricas equidad pfi shap lime casos individuales">
+              <h3>Reportes tabulares</h3>
+              <p>CSV reproducibles con métricas, equidad, variables importantes, SHAP, PFI, LIME y casos individuales.</p>
+              <div class="meta"><span>reports/</span><a href="https://github.com/schubertlombeida/Grupo12_Tecnicas_XAI_S4/tree/main/reports" target="_blank" rel="noopener">Abrir</a></div>
+            </article>
+
+            <article class="repo-item" data-category="reportes" data-text="informe tecnico docx presentacion pptx">
+              <h3>Informe y presentación</h3>
+              <p>Documentos finales en Word y PowerPoint ubicados dentro de reportes.</p>
+              <div class="meta"><span>reports/</span><a href="https://github.com/schubertlombeida/Grupo12_Tecnicas_XAI_S4/tree/main/reports" target="_blank" rel="noopener">Abrir</a></div>
+            </article>
+
+            <article class="repo-item" data-category="modelo" data-text="script visualizaciones reproducible python requirements">
+              <h3>Scripts y dependencias</h3>
+              <p>Automatización para regenerar visualizaciones y archivo de requisitos de Python.</p>
+              <div class="meta"><span>scripts/</span><a href="https://github.com/schubertlombeida/Grupo12_Tecnicas_XAI_S4" target="_blank" rel="noopener">Abrir</a></div>
+            </article>
+
+            <article class="repo-item" data-category="reportes" data-text="assets figures graficos visualizaciones distribucion matriz confusion shap pfi">
+              <h3>Visualizaciones</h3>
+              <p>Gráficos generados para revisar distribución, matriz de confusión, equidad e interpretabilidad.</p>
+              <div class="meta"><span>assets/figures/</span><a href="https://github.com/schubertlombeida/Grupo12_Tecnicas_XAI_S4/tree/main/assets/figures" target="_blank" rel="noopener">Abrir</a></div>
+            </article>
+          </div>
+        </section>
+
+        <section id="ruta">
+          <div class="section-head">
+            <div>
+              <h2>Ruta sugerida para revisión docente</h2>
+              <p>Secuencia práctica para evaluar el trabajo sin perderse entre carpetas.</p>
+            </div>
+          </div>
+
+          <div class="timeline">
+            <div class="step"><div class="step-number">1</div><div><h3>Leer el README</h3><p>Identificar el problema, alcance, métricas principales y advertencias éticas.</p></div></div>
+            <div class="step"><div class="step-number">2</div><div><h3>Abrir el notebook</h3><p>Revisar la preparación del dataset, entrenamiento y cálculos de equidad y explicabilidad.</p></div></div>
+            <div class="step"><div class="step-number">3</div><div><h3>Validar documentación</h3><p>Consultar metodología, diccionario de datos, entrenamiento, XAI, ética y limitaciones.</p></div></div>
+            <div class="step"><div class="step-number">4</div><div><h3>Contrastar reportes</h3><p>Verificar CSV de métricas, equidad, PFI, SHAP, LIME y casos individuales.</p></div></div>
+            <div class="step"><div class="step-number">5</div><div><h3>Revisar visualizaciones</h3><p>Usar las figuras para corroborar resultados y preparar observaciones de retroalimentación.</p></div></div>
+          </div>
+        </section>
+
+        <section id="evidencias">
+          <div class="section-head">
+            <div>
+              <h2>Evidencias organizadas</h2>
+              <p>Tabla de lectura rápida con los elementos que sostienen la entrega.</p>
+            </div>
+          </div>
+
+          <div class="tabs">
+            <button class="tab active" data-tab="datos">Datos</button>
+            <button class="tab" data-tab="modelo">Modelo</button>
+            <button class="tab" data-tab="xai">XAI</button>
+            <button class="tab" data-tab="entrega">Entrega</button>
+          </div>
+
+          <div class="tab-panel active" id="tab-datos">
+            <div class="table-wrap">
+              <table>
+                <thead><tr><th>Evidencia</th><th>Qué permite revisar</th><th>Ubicación</th></tr></thead>
+                <tbody>
+                  <tr><td>Dataset original</td><td>Origen y composición de los datos salariales.</td><td>data/raw/</td></tr>
+                  <tr><td>Dataset procesado</td><td>Preparación sin identificadores para modelado.</td><td>data/processed/</td></tr>
+                  <tr><td>Diccionario de datos</td><td>Significado de variables y criterios de interpretación.</td><td>docs/diccionario_datos.md</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <div class="tab-panel" id="tab-modelo">
+            <div class="table-wrap">
+              <table>
+                <thead><tr><th>Evidencia</th><th>Qué permite revisar</th><th>Ubicación</th></tr></thead>
+                <tbody>
+                  <tr><td>Notebook principal</td><td>Flujo completo de preparación, entrenamiento y evaluación.</td><td>notebooks/</td></tr>
+                  <tr><td>Métricas del modelo</td><td>Accuracy, precision, recall, F1 y matriz de confusión.</td><td>reports/metricas_modelo.csv</td></tr>
+                  <tr><td>Comparación baseline</td><td>Contraste de modelos o alternativas base.</td><td>reports/comparacion_modelos_baseline.csv</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <div class="tab-panel" id="tab-xai">
+            <div class="table-wrap">
+              <table>
+                <thead><tr><th>Evidencia</th><th>Qué permite revisar</th><th>Ubicación</th></tr></thead>
+                <tbody>
+                  <tr><td>Permutation Feature Importance</td><td>Importancia global de variables por permutación.</td><td>reports/top_variables_pfi.csv</td></tr>
+                  <tr><td>SHAP</td><td>Aporte global o local de variables a las predicciones.</td><td>reports/top_variables_shap.csv</td></tr>
+                  <tr><td>LIME</td><td>Explicaciones locales para instancias seleccionadas.</td><td>reports/lime_instancia_2.csv y lime_instancia_102.csv</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <div class="tab-panel" id="tab-entrega">
+            <div class="table-wrap">
+              <table>
+                <thead><tr><th>Evidencia</th><th>Qué permite revisar</th><th>Ubicación</th></tr></thead>
+                <tbody>
+                  <tr><td>Informe técnico</td><td>Entrega formal del análisis y resultados.</td><td>reports/Informe_Tecnico_XAI_Semana4_Grupo12.docx</td></tr>
+                  <tr><td>Presentación</td><td>Síntesis para exposición técnica.</td><td>reports/Presentacion_Tecnica_XAI_S4_Grupo12 v2.0.pptx</td></tr>
+                  <tr><td>Guía de presentación</td><td>Orden sugerido para sustentar el trabajo.</td><td>docs/05_guia_presentacion_tecnica.md</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <section id="etica">
+          <div class="section-head">
+            <div>
+              <h2>Ética, sesgo y calidad</h2>
+              <p>Aspectos críticos que la revisión debe considerar junto con las métricas de desempeño.</p>
+            </div>
+          </div>
+
+          <div class="grid">
+            <article class="card span-4">
+              <h3>Privacidad</h3>
+              <p>El README señala que el dataset original contiene campos identificatorios como ID y NombreEmpleado, por lo que el modelado elimina esas columnas.</p>
+            </article>
+            <article class="card span-4">
+              <h3>Sesgo por sexo</h3>
+              <p>El repositorio incluye revisión de brecha, métricas de equidad y mitigación mediante ponderación para transparentar posibles diferencias.</p>
+            </article>
+            <article class="card span-4">
+              <h3>Limitación metodológica</h3>
+              <p>La variable objetivo se deriva de SalarioTotalConBeneficios y esa variable permanece entre predictores; el desempeño perfecto debe interpretarse con cautela.</p>
+            </article>
+          </div>
+        </section>
+
+      </div>
+    </main>
+  </div>
+
+  <button id="topButton" class="top-button" aria-label="Volver al inicio">↑</button>
+
+  <script>
+    const filters = document.querySelectorAll(".filter");
+    const cards = document.querySelectorAll(".repo-item");
+    const searchInput = document.getElementById("searchInput");
+
+    function normalize(value) {
+      return value.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+    }
+
+    function updateCards() {
+      const activeFilter = document.querySelector(".filter.active").dataset.filter;
+      const query = normalize(searchInput.value.trim());
+
+      cards.forEach(card => {
+        const categoryMatch = activeFilter === "todos" || card.dataset.category === activeFilter;
+        const text = normalize(card.innerText + " " + card.dataset.text);
+        const queryMatch = !query || text.includes(query);
+        card.style.display = categoryMatch && queryMatch ? "" : "none";
+      });
+    }
+
+    filters.forEach(button => {
+      button.addEventListener("click", () => {
+        filters.forEach(item => item.classList.remove("active"));
+        button.classList.add("active");
+        updateCards();
+      });
+    });
+
+    searchInput.addEventListener("input", updateCards);
+
+    const tabs = document.querySelectorAll(".tab");
+    const panels = document.querySelectorAll(".tab-panel");
+
+    tabs.forEach(tab => {
+      tab.addEventListener("click", () => {
+        tabs.forEach(item => item.classList.remove("active"));
+        panels.forEach(panel => panel.classList.remove("active"));
+        tab.classList.add("active");
+        document.getElementById(`tab-${tab.dataset.tab}`).classList.add("active");
+      });
+    });
+
+    const navLinks = document.querySelectorAll("nav a");
+    const sections = [...navLinks].map(link => document.querySelector(link.getAttribute("href"))).filter(Boolean);
+
+    function setActiveNav() {
+      const offset = window.scrollY + 160;
+      let current = sections[0].id;
+      sections.forEach(section => {
+        if (section.offsetTop <= offset) current = section.id;
+      });
+
+      navLinks.forEach(link => {
+        link.classList.toggle("active", link.getAttribute("href") === `#${current}`);
+      });
+    }
+
+    const topButton = document.getElementById("topButton");
+
+    window.addEventListener("scroll", () => {
+      setActiveNav();
+      topButton.classList.toggle("visible", window.scrollY > 600);
+    });
+
+    topButton.addEventListener("click", () => window.scrollTo({ top: 0, behavior: "smooth" }));
+    setActiveNav();
+  </script>
 </body>
 </html>
